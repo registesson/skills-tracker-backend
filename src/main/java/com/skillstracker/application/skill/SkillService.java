@@ -25,10 +25,8 @@ public class SkillService {
     }
 
     public Skill createSkill(UUID userId, String name, SkillCategory category, SkillLevel currentLevel) {
-        //User user = userRepository.findById(userId)
-         //       .orElseThrow(() -> new RuntimeException("User not found"));
-        User user = new User("temp","temp","temp", "");// Temporary hardcoded user
-        userRepository.save(user); // Persister l'utilisateur d'abord
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
         Skill skill = new Skill(name, category, currentLevel, user);
         return skillRepository.save(skill);
     }
@@ -42,7 +40,7 @@ public class SkillService {
     }
 
     public List<Skill> getUserSkills(UUID userId) {
-        return skillRepository.findByUserId(userId);
+        return skillRepository.findByUserIdOrderByUpdatedAtDesc(userId);
     }
 
     public List<Skill> getUserSkillsByCategory(UUID userId, SkillCategory category) {

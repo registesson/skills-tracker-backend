@@ -29,7 +29,7 @@ public class SkillController {
     @PostMapping
     public ResponseEntity<SkillDTO> createSkill(@Valid @RequestBody CreateSkillRequest request, Authentication authentication) {
         //UUID userId = UUID.fromString(authentication.getName());
-        UUID userId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000"); // Temporary hardcoded user ID
+        UUID userId = UUID.fromString("1eaac572-fa52-4b2d-a4f3-27af3a18e97a"); // Temporary hardcoded user ID
         Skill skill = skillService.createSkill(userId, request.name(), request.category(), request.currentLevel());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(mapToDTO(skill));
@@ -37,8 +37,8 @@ public class SkillController {
 
     @GetMapping
     public ResponseEntity<List<SkillDTO>> getUserSkills(Authentication authentication) {
-        UUID userId = UUID.fromString(authentication.getName());
-
+        //UUID userId = UUID.fromString(authentication.getName());
+        UUID userId = UUID.fromString("1eaac572-fa52-4b2d-a4f3-27af3a18e97a"); // Temporary hardcoded user ID
         List<Skill> skills = skillService.getUserSkills(userId);
         List<SkillDTO> skillDTOs = skills.stream()
                 .map(this::mapToDTO)
