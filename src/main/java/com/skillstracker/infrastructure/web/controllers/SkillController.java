@@ -7,6 +7,11 @@ import com.skillstracker.infrastructure.web.dto.CreateSkillRequest;
 import com.skillstracker.infrastructure.web.dto.SkillDTO;
 import com.skillstracker.infrastructure.web.dto.UpdateSkillLevelRequest;
 import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.jspecify.annotations.Nullable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +23,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/skills")
+@Tag(name = "Skills", description = "Skill management endpoints")
 public class SkillController {
 
     private final SkillService skillService;
@@ -69,6 +75,12 @@ public class SkillController {
     }
 
     @DeleteMapping("/{skillId}")
+    @Operation(summary = "Delete a skill", description = "Delete a specific skill")
+    @SecurityRequirement(name = "bearer-jwt")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Skill deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Skill not found")
+    })
     public ResponseEntity<Void> deleteSkill(@PathVariable UUID skillId) {
         skillService.deleteSkill(skillId);
         return ResponseEntity.noContent().build();
