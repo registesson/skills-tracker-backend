@@ -3,6 +3,7 @@ package com.skillstracker.infrastructure.web.controllers;
 import com.skillstracker.application.auth.JwtService;
 import com.skillstracker.application.user.UserService;
 import com.skillstracker.domain.user.User;
+import com.skillstracker.infrastructure.web.dto.AuthRequest;
 import com.skillstracker.infrastructure.web.dto.RegisterRequest;
 import com.skillstracker.infrastructure.web.dto.RegisterResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -52,5 +53,27 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RegisterResponse(null, null, e.getMessage()));
         }
 
+    }
+
+    @PostMapping("/login")
+    @Operation(summary = "Login user", description = "Authenticate user with email and password, returns JWT token valid for 24h")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Login successful",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = RegisterResponse.class))),
+            @ApiResponse(responseCode = "401", description = "Invalid email or password")
+    })
+    public ResponseEntity<RegisterResponse> login(@RequestBody AuthRequest request) {
+        try {
+            User user = userService.authenticateUser(request.getEmail(), request.getPassword());
+            String token = jwtService.generateToken(user.getEmail());
+            return ResponseEntity.ok(new RegisterResponse(
+                    user.getEmail(),
+                    token,
+                    "Login successful"
+            ));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(new RegisterResponse(null, null, "Invalid email or password"));
+        }
     }
 }
