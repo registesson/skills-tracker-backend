@@ -3,6 +3,7 @@ package com.skillstracker.domain.LearningSession;
 import com.skillstracker.domain.skill.Skill;
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -19,7 +20,7 @@ public class LearningSession {
     private Skill skill;
 
     @Column(nullable = false)
-    private LocalDateTime sessionDate;
+    private LocalDate sessionDate;
 
     @Column(nullable = false)
     private Integer durationMinutes;
@@ -33,13 +34,16 @@ public class LearningSession {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    protected LearningSession() {}
+    public LearningSession() {}
 
-    public LearningSession(Skill skill, LocalDateTime sessionDate, Integer durationMinutes) {
+    public LearningSession(Skill skill, LocalDate sessionDate, Integer durationMinutes, String notes, String resourcesUsed) {
         this.skill = skill;
         this.sessionDate = sessionDate;
         this.durationMinutes = durationMinutes;
         this.createdAt = LocalDateTime.now();
+        this.notes = notes;
+        this.resourcesUsed = resourcesUsed;
+
     }
 
     public void addNotes(String notes) {
@@ -53,9 +57,37 @@ public class LearningSession {
     // Getters
     public UUID getId() { return id; }
     public Skill getSkill() { return skill; }
-    public LocalDateTime getSessionDate() { return sessionDate; }
+    public LocalDate getSessionDate() { return sessionDate; }
     public Integer getDurationMinutes() { return durationMinutes; }
     public String getNotes() { return notes; }
     public String getResourcesUsed() { return resourcesUsed; }
     public LocalDateTime getCreatedAt() { return createdAt; }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public void setSkill(Skill skill) {
+        this.skill = skill;
+    }
+
+    public void setSessionDate(LocalDate sessionDate) {
+        this.sessionDate = sessionDate;
+    }
+
+    public void setDurationMinutes(Integer durationMinutes) {
+        this.durationMinutes = durationMinutes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void setResourcesUsed(String resourcesUsed) {
+        this.resourcesUsed = resourcesUsed;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 }

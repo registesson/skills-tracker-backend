@@ -16,6 +16,8 @@ public interface SkillRepository extends JpaRepository<Skill, UUID> {
 
     List<Skill> findByUserIdAndCategory(UUID userId, SkillCategory category);
 
+    Skill findSkillByName(String name);
+
     @Query("SELECT s FROM Skill s WHERE s.user.id = :userId ORDER BY s.updatedAt DESC")
     List<Skill> findByUserIdOrderByUpdatedAtDesc(UUID userId);
 

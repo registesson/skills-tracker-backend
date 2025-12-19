@@ -19,6 +19,8 @@ public interface LearningSessionRepository extends JpaRepository<LearningSession
     @Query("SELECT ls FROM LearningSession ls WHERE ls.skill.user.id = :userId AND ls.sessionDate BETWEEN :startDate AND :endDate")
     List<LearningSession> findByUserIdAndDateRange(UUID userId, LocalDateTime startDate, LocalDateTime endDate);
 
+
     @Query("SELECT SUM(ls.durationMinutes) FROM LearningSession ls WHERE ls.skill.id = :skillId")
     Long getTotalDurationBySkillId(UUID skillId);
+
 }
