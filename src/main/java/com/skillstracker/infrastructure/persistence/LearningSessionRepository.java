@@ -3,6 +3,7 @@ package com.skillstracker.infrastructure.persistence;
 import com.skillstracker.domain.LearningSession.LearningSession;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -23,4 +24,9 @@ public interface LearningSessionRepository extends JpaRepository<LearningSession
     @Query("SELECT SUM(ls.durationMinutes) FROM LearningSession ls WHERE ls.skill.id = :skillId")
     Long getTotalDurationBySkillId(UUID skillId);
 
+    @Query("SELECT ls FROM LearningSession ls WHERE ls.skill.id = :skillId AND ls.skill.user.id = :userId")
+    List<LearningSession> findBySkillIdAndUserId(@Param("skillId") UUID skillId, @Param("userId") UUID userId);
+
+    @Query("SELECT SUM(ls.durationMinutes) FROM LearningSession ls WHERE ls.skill.id = :skillId AND ls.skill.user.id = :userId")
+    Integer getTotalMinutesBySkillAndUser(@Param("skillId") UUID skillId, @Param("userId") UUID userId);
 }
