@@ -1,5 +1,6 @@
 package com.skillstracker.infrastructure.web.controllers;
 
+import com.skillstracker.application.skill.SkillExportService;
 import com.skillstracker.application.skill.SkillService;
 import com.skillstracker.domain.skill.Skill;
 import com.skillstracker.domain.skill.SkillCategory;
@@ -13,7 +14,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.jspecify.annotations.Nullable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +30,11 @@ import java.util.UUID;
 public class SkillController {
 
     private final SkillService skillService;
+    private final SkillExportService skillExportService;
 
-    public SkillController(SkillService skillService) {
+    public SkillController(SkillService skillService, SkillExportService skillExportService) {
         this.skillService = skillService;
+        this.skillExportService = skillExportService;
     }
 
     @PostMapping
@@ -84,6 +89,30 @@ public class SkillController {
     public ResponseEntity<Void> deleteSkill(@PathVariable UUID skillId) {
         skillService.deleteSkill(skillId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/export/csv")
+    @Operation(summary = "Export skills to CSV", description = "Export all user skills to CSV format with name, category, level, and total time")
+    @SecurityRequirement(name = "bearer-jwt")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "CSV file generated successfully"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized")
+    })
+    public ResponseEntity<byte[]> exportSkillsToCsv(Authentication authentication) {
+        //UUID userId = UUID.fromString(authentication.getName());
+        UUID userId = UUID.fromString("1eaac572-fa52-4b2d-a4f3-27af3a18e97a"); // Temporary hardcoded user ID
+
+        byte[] csvData = skillExportService.exportSkillsToCsv(userId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("text/csv"));
+        headers.setContentDispositionFormData("attachment", "mes-competences.csv");
+        headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .body(csvData);
     }
 
     private @Nullable SkillDTO mapToDTO(Skill skill) {

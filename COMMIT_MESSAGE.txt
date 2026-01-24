@@ -1,0 +1,48 @@
+feat: ajout de l'export des compétences en CSV
+
+Implémentation de la fonctionnalité permettant aux utilisateurs
+d'exporter leurs compétences au format CSV pour analyse externe.
+
+Nouvelles fonctionnalités:
+- Endpoint REST GET /api/skills/export/csv avec authentification JWT
+- Service SkillExportService pour génération du CSV
+- Calcul automatique du temps total par compétence (somme des sessions)
+- Format CSV standard (RFC 4180) avec encodage UTF-8
+- Échappement automatique des caractères spéciaux
+- Téléchargement direct via Content-Disposition header
+
+Structure du CSV:
+- Colonnes: nom, categorie, niveau, temps_total_minutes
+- Compatible Excel, Google Sheets, Python, R
+
+Tests:
+- 3 tests unitaires couvrant tous les cas d'usage
+- Tests d'export avec/sans sessions d'apprentissage
+- Tests d'échappement CSV
+- Tous les tests passent ✅
+
+Documentation:
+- Documentation technique complète
+- Exemples d'intégration (React, Vue, Angular)
+- Guide de test manuel
+- Quick start et changelog
+
+Critères d'acceptation: ✅ Tous validés
+- Format CSV standard
+- Colonnes requises (nom, catégorie, niveau, temps total)
+- Téléchargement direct
+- Authentification sécurisée
+
+Fichiers modifiés:
+- src/main/java/.../controllers/SkillController.java
+
+Fichiers créés:
+- src/main/java/.../application/skill/SkillExportService.java
+- src/test/java/.../application/skill/SkillExportServiceTest.java
+- Documentation complète (6 fichiers MD)
+
+Breaking changes: Aucun
+Backward compatible: Oui
+
+Closes #[NUMERO_ISSUE]
+
