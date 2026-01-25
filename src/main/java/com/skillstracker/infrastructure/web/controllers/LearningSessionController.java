@@ -56,8 +56,20 @@ public class LearningSessionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LearningSession>> getAllSessions() {
-        return ResponseEntity.ok(learningSessionService.getAllSessions());
+    public ResponseEntity<List<LearningSessionResponseDTO>> getAllSessions() {
+        List<LearningSession> sessions = learningSessionService.getAllSessions();
+        List<LearningSessionResponseDTO> responseDTOs = sessions.stream()
+                .map(session -> new LearningSessionResponseDTO(
+                        session.getId(),
+                        session.getSkill().getName(),
+                        session.getSessionDate(),
+                        session.getDurationMinutes(),
+                        session.getNotes(),
+                        session.getResourcesUsed(),
+                        0
+                ))
+                .toList();
+        return ResponseEntity.ok(responseDTOs);
     }
 
     @PutMapping("/{id}")

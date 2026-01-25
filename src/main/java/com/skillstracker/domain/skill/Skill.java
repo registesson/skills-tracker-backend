@@ -1,5 +1,6 @@
 package com.skillstracker.domain.skill;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.skillstracker.domain.LearningSession.LearningSession;
 import com.skillstracker.domain.resource.LearningResource;
 import com.skillstracker.domain.user.User;
@@ -40,6 +41,7 @@ public class Skill {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonBackReference
     private User user;
 
     @OneToMany(mappedBy = "skill", cascade = CascadeType.ALL, orphanRemoval = true)

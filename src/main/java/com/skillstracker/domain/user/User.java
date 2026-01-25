@@ -1,5 +1,6 @@
 package com.skillstracker.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.skillstracker.domain.skill.Skill;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -41,6 +42,7 @@ public class User {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Skill> skills = new ArrayList<>();
 
     public User(String email, String password, String firstName, String lastName) {
