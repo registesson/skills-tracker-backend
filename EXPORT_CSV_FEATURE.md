@@ -51,7 +51,7 @@ PostgreSQL,DATABASE,ADVANCED,200
 ### Avec cURL
 
 ```bash
-curl -X GET "http://localhost:8080/api/skills/export/csv" \
+curl -X GET "http://localhost:8081/api/skills/export/csv" \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -o mes-competences.csv
 ```
@@ -62,7 +62,7 @@ curl -X GET "http://localhost:8080/api/skills/export/csv" \
 async function exportSkills() {
   const token = localStorage.getItem('jwt_token');
   
-  const response = await fetch('http://localhost:8080/api/skills/export/csv', {
+  const response = await fetch('http://localhost:8081/api/skills/export/csv', {
     headers: {
       'Authorization': `Bearer ${token}`
     }

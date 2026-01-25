@@ -2,14 +2,14 @@
 
 ## Prérequis
 - Le serveur backend doit être lancé: `mvn spring-boot:run`
-- Port par défaut: 8080
+- Port par défaut: 8081
 
 ## Scénario de Test Complet
 
 ### Étape 1: Créer un utilisateur (si nécessaire)
 
 ```bash
-curl -X POST http://localhost:8080/api/auth/register \
+curl -X POST http://localhost:8081/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
@@ -24,7 +24,7 @@ curl -X POST http://localhost:8080/api/auth/register \
 ### Étape 2: Se connecter et récupérer le token
 
 ```bash
-curl -X POST http://localhost:8080/api/auth/login \
+curl -X POST http://localhost:8081/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "test@example.com",
@@ -46,7 +46,7 @@ Copiez le token pour les étapes suivantes.
 
 #### Compétence 1: Java
 ```bash
-curl -X POST http://localhost:8080/api/skills \
+curl -X POST http://localhost:8081/api/skills \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer VOTRE_TOKEN" \
   -d '{
@@ -58,7 +58,7 @@ curl -X POST http://localhost:8080/api/skills \
 
 #### Compétence 2: Spring Boot
 ```bash
-curl -X POST http://localhost:8080/api/skills \
+curl -X POST http://localhost:8081/api/skills \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer VOTRE_TOKEN" \
   -d '{
@@ -70,7 +70,7 @@ curl -X POST http://localhost:8080/api/skills \
 
 #### Compétence 3: PostgreSQL
 ```bash
-curl -X POST http://localhost:8080/api/skills \
+curl -X POST http://localhost:8081/api/skills \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer VOTRE_TOKEN" \
   -d '{
@@ -82,7 +82,7 @@ curl -X POST http://localhost:8080/api/skills \
 
 #### Compétence 4: Avec caractères spéciaux
 ```bash
-curl -X POST http://localhost:8080/api/skills \
+curl -X POST http://localhost:8081/api/skills \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer VOTRE_TOKEN" \
   -d '{
@@ -98,7 +98,7 @@ Pour chaque compétence, récupérez son ID depuis la réponse de création, pui
 
 ```bash
 # Session pour Java (remplacer SKILL_ID)
-curl -X POST http://localhost:8080/api/learning-sessions \
+curl -X POST http://localhost:8081/api/learning-sessions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer VOTRE_TOKEN" \
   -d '{
@@ -110,7 +110,7 @@ curl -X POST http://localhost:8080/api/learning-sessions \
   }'
 
 # Session supplémentaire pour Java
-curl -X POST http://localhost:8080/api/learning-sessions \
+curl -X POST http://localhost:8081/api/learning-sessions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer VOTRE_TOKEN" \
   -d '{
@@ -122,7 +122,7 @@ curl -X POST http://localhost:8080/api/learning-sessions \
   }'
 
 # Session pour Spring Boot
-curl -X POST http://localhost:8080/api/learning-sessions \
+curl -X POST http://localhost:8081/api/learning-sessions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer VOTRE_TOKEN" \
   -d '{
@@ -134,7 +134,7 @@ curl -X POST http://localhost:8080/api/learning-sessions \
   }'
 
 # Session pour PostgreSQL
-curl -X POST http://localhost:8080/api/learning-sessions \
+curl -X POST http://localhost:8081/api/learning-sessions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer VOTRE_TOKEN" \
   -d '{
@@ -149,7 +149,7 @@ curl -X POST http://localhost:8080/api/learning-sessions \
 ### Étape 5: Exporter les compétences en CSV
 
 ```bash
-curl -X GET http://localhost:8080/api/skills/export/csv \
+curl -X GET http://localhost:8081/api/skills/export/csv \
   -H "Authorization: Bearer VOTRE_TOKEN" \
   -o mes-competences.csv
 ```
@@ -176,7 +176,7 @@ PostgreSQL,DATABASE,INTERMEDIATE,45
 ### Étape 7: Vérifier les headers HTTP
 
 ```bash
-curl -I -X GET http://localhost:8080/api/skills/export/csv \
+curl -I -X GET http://localhost:8081/api/skills/export/csv \
   -H "Authorization: Bearer VOTRE_TOKEN"
 ```
 
@@ -201,14 +201,14 @@ nom,categorie,niveau,temps_total_minutes
 
 ### Test 2: Export sans authentification
 ```bash
-curl -X GET http://localhost:8080/api/skills/export/csv
+curl -X GET http://localhost:8081/api/skills/export/csv
 ```
 
 **Résultat attendu:** Statut 401 Unauthorized
 
 ### Test 3: Export avec token invalide
 ```bash
-curl -X GET http://localhost:8080/api/skills/export/csv \
+curl -X GET http://localhost:8081/api/skills/export/csv \
   -H "Authorization: Bearer token_invalide"
 ```
 
@@ -216,7 +216,7 @@ curl -X GET http://localhost:8080/api/skills/export/csv \
 
 ### Test 4: Compétence avec nom contenant des guillemets
 ```bash
-curl -X POST http://localhost:8080/api/skills \
+curl -X POST http://localhost:8081/api/skills \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer VOTRE_TOKEN" \
   -d '{

@@ -12,7 +12,7 @@ Ce document fournit des exemples pratiques pour utiliser la fonctionnalité d'ex
 
 ```bash
 # S'enregistrer
-curl -X POST http://localhost:8080/api/auth/register \
+curl -X POST http://localhost:8081/api/auth/register \
   -H "Content-Type: application/json" \
   -d '{
     "email": "user@example.com",
@@ -22,7 +22,7 @@ curl -X POST http://localhost:8080/api/auth/register \
   }'
 
 # Se connecter
-curl -X POST http://localhost:8080/api/auth/login \
+curl -X POST http://localhost:8081/api/auth/login \
   -H "Content-Type: application/json" \
   -d '{
     "email": "user@example.com",
@@ -34,7 +34,7 @@ curl -X POST http://localhost:8080/api/auth/login \
 
 ```bash
 # Remplacez YOUR_JWT_TOKEN par votre token
-curl -X GET "http://localhost:8080/api/skills/export/csv" \
+curl -X GET "http://localhost:8081/api/skills/export/csv" \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -o mes-competences.csv
 
@@ -61,7 +61,7 @@ const SkillExportButton = () => {
     try {
       const token = localStorage.getItem('jwt_token');
       
-      const response = await fetch('http://localhost:8080/api/skills/export/csv', {
+      const response = await fetch('http://localhost:8081/api/skills/export/csv', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -153,7 +153,7 @@ export default {
       try {
         const token = localStorage.getItem('jwt_token');
         
-        const response = await fetch('http://localhost:8080/api/skills/export/csv', {
+        const response = await fetch('http://localhost:8081/api/skills/export/csv', {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -225,7 +225,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SkillExportService {
-  private apiUrl = 'http://localhost:8080/api/skills';
+  private apiUrl = 'http://localhost:8081/api/skills';
 
   constructor(private http: HttpClient) {}
 
@@ -317,7 +317,7 @@ export class SkillExportButtonComponent {
 ## 5. Test avec Postman
 
 1. Créer une nouvelle requête GET
-2. URL: `http://localhost:8080/api/skills/export/csv`
+2. URL: `http://localhost:8081/api/skills/export/csv`
 3. Headers:
    - Key: `Authorization`
    - Value: `Bearer YOUR_JWT_TOKEN`

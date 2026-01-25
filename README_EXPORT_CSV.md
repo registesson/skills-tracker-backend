@@ -58,7 +58,7 @@ Résultats:
 
 ### cURL
 ```bash
-curl -X GET http://localhost:8080/api/skills/export/csv \
+curl -X GET http://localhost:8081/api/skills/export/csv \
   -H "Authorization: Bearer TOKEN" \
   -o mes-competences.csv
 ```

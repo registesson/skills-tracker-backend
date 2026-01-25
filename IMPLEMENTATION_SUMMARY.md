@@ -109,14 +109,14 @@ mvn test -Dtest=SkillExportServiceTest
 
 ### Avec cURL
 ```bash
-curl -X GET "http://localhost:8080/api/skills/export/csv" \
+curl -X GET "http://localhost:8081/api/skills/export/csv" \
   -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -o mes-competences.csv
 ```
 
 ### Avec JavaScript/React
 ```javascript
-const response = await fetch('http://localhost:8080/api/skills/export/csv', {
+const response = await fetch('http://localhost:8081/api/skills/export/csv', {
   headers: { 'Authorization': `Bearer ${token}` }
 });
 const blob = await response.blob();

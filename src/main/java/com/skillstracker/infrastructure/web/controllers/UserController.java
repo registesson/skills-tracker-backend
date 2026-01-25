@@ -47,7 +47,7 @@ public class UserController {
                     .body(new RegisterResponse(
                             user.getEmail(),
                             token,
-                            "Email is already in use"
+                            "User registered successfully"
                     ));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new RegisterResponse(null, null, e.getMessage()));
