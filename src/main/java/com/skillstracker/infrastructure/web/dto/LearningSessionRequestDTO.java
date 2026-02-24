@@ -4,11 +4,15 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class LearningSessionRequestDTO{
+    private UUID skillId;
     private String skillName;
     private LocalDateTime sessionDate;
     private Integer durationMinutes;
     private String notes;
     private String resourcesUsed;
+
+    public UUID getSkillId() { return skillId; }
+    public void setSkillId(UUID skillId) { this.skillId = skillId; }
 
     public String getSkillName() { return skillName; }
     public void setSkillName(String skillName) { this.skillName = skillName; }

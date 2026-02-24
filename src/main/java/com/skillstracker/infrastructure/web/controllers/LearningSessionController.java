@@ -28,8 +28,7 @@ public class LearningSessionController {
     @PostMapping
     public ResponseEntity<LearningSessionResponseDTO> createSession(@RequestBody LearningSessionRequestDTO dto) {
 
-
-        Skill skill = skillRepository.findSkillByName(dto.getSkillName());
+        Skill skill = resolveSkill(dto);
 
         LearningSession session = new LearningSession(
                 skill,
@@ -77,15 +76,7 @@ public class LearningSessionController {
             @PathVariable UUID id,
             @RequestBody LearningSessionRequestDTO dto) {
 
-        LearningSession session = new LearningSession(
-                null,
-                dto.getSessionDate().toLocalDate(),
-                dto.getDurationMinutes(),
-                dto.getNotes(),
-                dto.getResourcesUsed()
-        );
-
-        LearningSession updated = learningSessionService.updateSession(id, session);
+        LearningSession updated = learningSessionService.updateSession(id, dto);
 
         return ResponseEntity.ok(
                 new LearningSessionResponseDTO(
@@ -106,6 +97,21 @@ public class LearningSessionController {
         return ResponseEntity.noContent().build();
     }
 
-
-
+    /**
+     * Résout la Skill à partir du DTO : par skillId d'abord, sinon par skillName.
+     */
+    private Skill resolveSkill(LearningSessionRequestDTO dto) {
+        if (dto.getSkillId() != null) {
+            return skillRepository.findById(dto.getSkillId())
+                    .orElseThrow(() -> new IllegalArgumentException("Skill not found with id: " + dto.getSkillId()));
+        }
+        if (dto.getSkillName() != null) {
+            Skill skill = skillRepository.findSkillByName(dto.getSkillName());
+            if (skill == null) {
+                throw new IllegalArgumentException("Skill not found with name: " + dto.getSkillName());
+            }
+            return skill;
+        }
+        throw new IllegalArgumentException("Either skillId or skillName must be provided");
+    }
 }
